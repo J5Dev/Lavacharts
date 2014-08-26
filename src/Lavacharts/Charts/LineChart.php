@@ -17,12 +17,15 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
+use Lavacharts\Traits as T;
 use Lavacharts\Helpers\Helpers;
-use Lavacharts\Configs\HorizontalAxis;
-use Lavacharts\Configs\VerticalAxis;
 
 class LineChart extends Chart
 {
+    use T\AxisTitlesPosition;
+    use T\VerticalAxis;
+    use T\HorizontalAxis;
+
     public $type = 'LineChart';
 
     public function __construct($chartLabel)
@@ -44,39 +47,6 @@ class LineChart extends Chart
                 'vAxis'
             )
         );
-    }
-
-    /**
-     * Where to place the axis titles, compared to the chart area.
-     *
-     * Supported values:
-     * in - Draw the axis titles inside the the chart area.
-     * out - Draw the axis titles outside the chart area.
-     * none - Omit the axis titles.
-     *
-     * @param  string             $position
-     * @throws InvalidConfigValue
-     * @return LineChart
-     */
-    public function axisTitlesPosition($position)
-    {
-        $values = array(
-            'in',
-            'out',
-            'none'
-        );
-
-        if (is_string($position) && in_array($position, $values)) {
-            $this->addOption(array('axisTitlesPosition' => $position));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
     }
 
     /**
@@ -106,22 +76,6 @@ class LineChart extends Chart
                 'with a value of '.Helpers::arrayToPipedString($values)
             );
         }
-
-        return $this;
-    }
-
-    /**
-     * An object with members to configure various horizontal axis elements. To
-     * specify properties of this property, create a new hAxis() object, set
-     * the values then pass it to this function or to the constructor.
-     *
-     * @param  HorizontalAxis     $hAxis
-     * @throws InvalidConfigValue
-     * @return LineChart
-     */
-    public function hAxis(HorizontalAxis $hAxis)
-    {
-        $this->addOption($hAxis->toArray('hAxis'));
 
         return $this;
     }
@@ -190,22 +144,6 @@ class LineChart extends Chart
                 'int'
             );
         }
-
-        return $this;
-    }
-
-    /**
-     * An object with members to configure various vertical axis elements. To
-     * specify properties of this property, create a new vAxis() object, set
-     * the values then pass it to this function or to the constructor.
-     *
-     * @param  VerticalAxis       $vAxis
-     * @throws InvalidConfigValue
-     * @return LineChart
-     */
-    public function vAxis(VerticalAxis $vAxis)
-    {
-        $this->addOption($vAxis->toArray('vAxis'));
 
         return $this;
     }
